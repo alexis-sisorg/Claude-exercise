@@ -1,0 +1,334 @@
+<div class="auth-page">
+
+  <!-- ── Atmospheric background ──────────────────────────── -->
+  <div class="auth-bg" aria-hidden="true">
+    <div class="auth-grid-h"></div>
+    <div class="auth-grid-v"></div>
+    <div class="auth-glow auth-glow--indigo"></div>
+    <div class="auth-glow auth-glow--cyan"></div>
+    <div class="auth-shape auth-shape--1"></div>
+    <div class="auth-shape auth-shape--2"></div>
+    <div class="auth-shape auth-shape--3"></div>
+    <div class="auth-shape auth-shape--4"></div>
+  </div>
+
+  <!-- ── Card ─────────────────────────────────────────────── -->
+  <div class="auth-card">
+
+    <!-- ── Left: Brand panel ─────────────────────────────── -->
+    <div class="auth-brand">
+
+      <div class="auth-brand-logo">
+        <svg class="auth-brand-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2L21.5 7.5V16.5L12 22L2.5 16.5V7.5L12 2Z"
+                stroke="url(#ab-grad)" stroke-width="1.5" fill="none"/>
+          <circle cx="12" cy="12" r="3" fill="url(#ab-grad)"/>
+          <defs>
+            <linearGradient id="ab-grad" x1="2.5" y1="2" x2="21.5" y2="22" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#818CF8"/>
+              <stop offset="100%" stop-color="#67E8F9"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="auth-brand-name">WorkSpace</span>
+        <span class="auth-brand-ver">v1.8</span>
+      </div>
+
+      <!-- Orbital visualization -->
+      <div class="auth-viz" aria-hidden="true">
+        <div class="auth-orbit auth-orbit--1"></div>
+        <div class="auth-orbit auth-orbit--2"></div>
+        <div class="auth-orbit auth-orbit--3"></div>
+        <div class="auth-orbit-center"></div>
+      </div>
+
+      <p class="auth-tagline">
+        Your projects.<br>
+        Organized.<br>
+        <em>Moving.</em>
+      </p>
+
+      <ul class="auth-features" aria-label="Features">
+        <li>
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7l3.5 3.5L12 3" stroke="url(#ck-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="ck-grad" x1="2" y1="3" x2="12" y2="11" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#6366F1"/><stop offset="1" stop-color="#22D3EE"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          Kanban boards with drag &amp; drop
+        </li>
+        <li>
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7l3.5 3.5L12 3" stroke="url(#ck-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Real-time team comments
+        </li>
+        <li>
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7l3.5 3.5L12 3" stroke="url(#ck-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Smart due date tracking
+        </li>
+        <li>
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7l3.5 3.5L12 3" stroke="url(#ck-grad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Light &amp; dark mode
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- ── Right: Form panel ──────────────────────────────── -->
+    <div class="auth-form-side">
+
+      <!-- ── LOGIN ─────────────────────────────────────────── -->
+      @if (view() === 'login') {
+        <div class="auth-view">
+          <div class="auth-view-header">
+            <h1 class="auth-title">Welcome back</h1>
+            <p class="auth-subtitle">Sign in to continue to WorkSpace</p>
+          </div>
+
+          @if (error()) {
+            <div class="auth-error" role="alert">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.25"/>
+                <path d="M8 5v3.5M8 10.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              {{ error() }}
+            </div>
+          }
+
+          <form class="auth-form" (ngSubmit)="onLogin()">
+            <div class="auth-field">
+              <label class="auth-label" for="l-email">EMAIL</label>
+              <input id="l-email" class="auth-input" type="email"
+                     placeholder="you@example.com"
+                     [(ngModel)]="email" name="email"
+                     autocomplete="email" required>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="l-pwd">PASSWORD</label>
+              <div class="auth-input-wrap">
+                <input id="l-pwd" class="auth-input"
+                       [type]="showPassword() ? 'text' : 'password'"
+                       placeholder="••••••••"
+                       [(ngModel)]="password" name="password"
+                       autocomplete="current-password" required>
+                <button type="button" class="auth-eye"
+                        (click)="togglePassword()"
+                        [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
+                  @if (showPassword()) {
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5Z" stroke="currentColor" stroke-width="1.25"/>
+                      <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.25"/>
+                      <line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+                    </svg>
+                  } @else {
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5Z" stroke="currentColor" stroke-width="1.25"/>
+                      <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.25"/>
+                    </svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="auth-submit"
+                    [class.auth-submit--loading]="loading()"
+                    [disabled]="loading()">
+              @if (loading()) {
+                <span class="auth-spinner"></span>
+                Signing in…
+              } @else {
+                Sign in
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              }
+            </button>
+          </form>
+
+          <div class="auth-links">
+            <button class="auth-link-btn" (click)="setView('forgot')">Forgot password?</button>
+            <span class="auth-links-dot" aria-hidden="true">·</span>
+            <button class="auth-link-btn" (click)="setView('register')">Create account</button>
+          </div>
+        </div>
+      }
+
+      <!-- ── REGISTER ───────────────────────────────────────── -->
+      @if (view() === 'register') {
+        <div class="auth-view">
+          <div class="auth-view-header">
+            <h1 class="auth-title">Create account</h1>
+            <p class="auth-subtitle">Join WorkSpace and start organizing</p>
+          </div>
+
+          @if (error()) {
+            <div class="auth-error" role="alert">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.25"/>
+                <path d="M8 5v3.5M8 10.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              {{ error() }}
+            </div>
+          }
+
+          <form class="auth-form" (ngSubmit)="onRegister()">
+            <div class="auth-field">
+              <label class="auth-label" for="r-name">NAME</label>
+              <input id="r-name" class="auth-input" type="text"
+                     placeholder="Alex Rivera"
+                     [(ngModel)]="name" name="name"
+                     autocomplete="name" required>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="r-email">EMAIL</label>
+              <input id="r-email" class="auth-input" type="email"
+                     placeholder="you@example.com"
+                     [(ngModel)]="email" name="email"
+                     autocomplete="email" required>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="r-pwd">PASSWORD</label>
+              <div class="auth-input-wrap">
+                <input id="r-pwd" class="auth-input"
+                       [type]="showPassword() ? 'text' : 'password'"
+                       placeholder="Min. 6 characters"
+                       [(ngModel)]="password" name="password"
+                       autocomplete="new-password" required>
+                <button type="button" class="auth-eye"
+                        (click)="togglePassword()"
+                        [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
+                  @if (showPassword()) {
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5Z" stroke="currentColor" stroke-width="1.25"/>
+                      <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.25"/>
+                      <line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+                    </svg>
+                  } @else {
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5Z" stroke="currentColor" stroke-width="1.25"/>
+                      <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.25"/>
+                    </svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="auth-submit"
+                    [class.auth-submit--loading]="loading()"
+                    [disabled]="loading()">
+              @if (loading()) {
+                <span class="auth-spinner"></span>
+                Creating account…
+              } @else {
+                Create account
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              }
+            </button>
+          </form>
+
+          <div class="auth-links">
+            <span class="auth-links-dim">Already have an account?</span>
+            <button class="auth-link-btn" (click)="setView('login')">Sign in</button>
+          </div>
+        </div>
+      }
+
+      <!-- ── FORGOT PASSWORD ────────────────────────────────── -->
+      @if (view() === 'forgot') {
+        <div class="auth-view">
+
+          @if (!forgotSent()) {
+            <div class="auth-view-header">
+              <h1 class="auth-title">Reset password</h1>
+              <p class="auth-subtitle">We&rsquo;ll send a recovery link to your email</p>
+            </div>
+
+            @if (error()) {
+              <div class="auth-error" role="alert">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.25"/>
+                  <path d="M8 5v3.5M8 10.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                {{ error() }}
+              </div>
+            }
+
+            <form class="auth-form" (ngSubmit)="onForgot()">
+              <div class="auth-field">
+                <label class="auth-label" for="f-email">EMAIL</label>
+                <input id="f-email" class="auth-input" type="email"
+                       placeholder="you@example.com"
+                       [(ngModel)]="forgotEmail" name="forgotEmail"
+                       autocomplete="email" required>
+              </div>
+
+              <button type="submit" class="auth-submit"
+                      [class.auth-submit--loading]="loading()"
+                      [disabled]="loading()">
+                @if (loading()) {
+                  <span class="auth-spinner"></span>
+                  Sending…
+                } @else {
+                  Send recovery link
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+              </button>
+            </form>
+
+          } @else {
+            <!-- Success state -->
+            <div class="auth-success">
+              <div class="auth-success-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="24" r="22" stroke="url(#sc-grad)" stroke-width="1.5"/>
+                  <path d="M14 24l7 7 13-13" stroke="url(#sc-grad)" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                  <defs>
+                    <linearGradient id="sc-grad" x1="2" y1="2" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#6366F1"/><stop offset="1" stop-color="#22D3EE"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <h2 class="auth-success-title">Check your inbox</h2>
+              <p class="auth-success-sub">
+                We sent a recovery link to<br>
+                <strong>{{ forgotEmail }}</strong>
+              </p>
+            </div>
+          }
+
+          <div class="auth-links">
+            <button class="auth-link-btn auth-link-btn--back" (click)="setView('login')">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Back to sign in
+            </button>
+          </div>
+
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

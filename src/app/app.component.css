@@ -242,6 +242,47 @@
   font-weight: 300;
 }
 
+/* ── Logged-in user chip + logout ────────────────────────── */
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.nav-username {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-logout {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.btn-logout svg { width: 14px; height: 14px; }
+
+.btn-logout:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #F87171;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 /* ── Main content area ───────────────────────────────────── */
 .app-main {
   flex: 1;
