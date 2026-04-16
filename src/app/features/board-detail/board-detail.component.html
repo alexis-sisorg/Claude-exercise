@@ -1,0 +1,172 @@
+@if (board) {
+  <div class="detail-page">
+
+    <!-- ── Back nav ──────────────────────────────────────── -->
+    <a class="back-link" routerLink="/">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All boards
+    </a>
+
+    <!-- ── Board header ──────────────────────────────────── -->
+    <header class="board-header">
+      <div class="board-accent-dot" [style.background]="board.accentColor"></div>
+      <h1 class="board-title">{{ board.name }}</h1>
+      <span class="board-meta">{{ board.lists.length }} {{ board.lists.length === 1 ? 'list' : 'lists' }}</span>
+    </header>
+
+    <!-- ── Empty state (no lists yet) ───────────────────── -->
+    @if (board.lists.length === 0 && !addingList) {
+      <div class="board-empty">
+        <div class="board-empty-icon">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="2"  y="4"  width="28" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="2" y1="11" x2="30" y2="11" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="11" y1="4" x2="11" y2="28" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <p class="board-empty-title">No lists yet</p>
+        <p class="board-empty-sub">Create your first list to start adding tasks</p>
+        <button class="btn-add-first-list" [style.--board-accent]="board.accentColor"
+                (click)="startAddList()">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+          </svg>
+          Add first list
+        </button>
+      </div>
+    }
+
+    <!-- ── Kanban columns ────────────────────────────────── -->
+    @if (board.lists.length > 0 || addingList) {
+      <div class="columns-wrap" cdkDropListGroup>
+
+        @for (list of board.lists; track list.id) {
+          <div class="column">
+
+            <!-- Column header -->
+            <div class="column-header">
+              <span class="column-name">{{ list.name }}</span>
+              <span class="column-count">{{ list.tasks.length }}</span>
+            </div>
+
+            <!-- Tasks -->
+            <div class="column-tasks"
+                 cdkDropList
+                 [cdkDropListData]="list.tasks"
+                 [attr.data-list-id]="list.id"
+                 (cdkDropListDropped)="drop($event, list.id)">
+              @for (task of list.tasks; track task.id) {
+                <button
+                  class="task-card"
+                  cdkDrag
+                  (click)="openTask(task)"
+                  [attr.aria-label]="'Open ' + task.title"
+                >
+                  <span class="task-title">{{ task.title }}</span>
+                  @if (task.dueDate) {
+                    <span
+                      class="task-due"
+                      [class.task-due--overdue]="task.dueDate < today"
+                      [class.task-due--soon]="task.dueDate >= today && task.dueDate <= fiveDaysOut"
+                    >
+                      {{ formatDue(task.dueDate) }}
+                    </span>
+                  }
+                  <span class="task-comment-hint" aria-hidden="true">💬</span>
+                </button>
+              }
+
+              <!-- Add-task inline form -->
+              @if (addingTaskInListId === list.id) {
+                <div class="add-task-form">
+                  <textarea
+                    class="inline-textarea"
+                    placeholder="Task title…"
+                    rows="2"
+                    [value]="newTaskTitle"
+                    (input)="onTaskTitleInput($event)"
+                    (keydown)="onTaskTitleKeydown($event)"
+                    autofocus
+                  ></textarea>
+                  <div class="inline-actions">
+                    <button class="btn-confirm" [disabled]="!newTaskTitle.trim()"
+                            (click)="confirmAddTask()">Add task</button>
+                    <button class="btn-cancel-sm" (click)="cancelAddTask()">
+                      <svg viewBox="0 0 16 16" fill="none">
+                        <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Add-task trigger -->
+            @if (addingTaskInListId !== list.id) {
+              <button class="add-task-btn" (click)="startAddTask(list.id)">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+                Add task
+              </button>
+            }
+
+          </div>
+        }
+
+        <!-- ── Add list column ──────────────────────────── -->
+        <div class="add-list-col">
+          @if (!addingList) {
+            <button class="add-list-btn" (click)="startAddList()">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              </svg>
+              Add list
+            </button>
+          } @else {
+            <div class="add-list-form">
+              <p class="add-list-label">List name</p>
+              <input
+                class="inline-input"
+                type="text"
+                placeholder="e.g. To Do, In Progress…"
+                maxlength="40"
+                [value]="newListName"
+                (input)="onListNameInput($event)"
+                (keydown)="onListNameKeydown($event)"
+                autofocus
+              />
+              <div class="inline-actions">
+                <button class="btn-confirm" [disabled]="!newListName.trim()"
+                        (click)="confirmAddList()">Create list</button>
+                <button class="btn-cancel-sm" (click)="cancelAddList()">
+                  <svg viewBox="0 0 16 16" fill="none">
+                    <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+
+      </div>
+    }
+
+    <!-- ── Task modal overlay ─────────────────────────────── -->
+    @if (activeTask()) {
+      <app-task-modal
+        [task]="activeTask()!"
+        (closeModal)="closeTask()"
+      />
+    }
+
+  </div>
+} @else {
+  <div class="not-found">
+    <p>Board not found.</p>
+    <a routerLink="/">← Back to boards</a>
+  </div>
+}

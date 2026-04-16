@@ -1,0 +1,362 @@
+/* ══════════════════════════════════════════════════════════════
+   Not Found  ·  404 Signal Lost
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Page shell ──────────────────────────────────────────── */
+.nf-page {
+  position: relative;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 3rem 1.5rem;
+}
+
+/* ── Background ──────────────────────────────────────────── */
+.nf-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.nf-grid-h {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 79px,
+    rgba(99, 102, 241, 0.045) 80px
+  );
+}
+
+.nf-grid-v {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent,
+    transparent 79px,
+    rgba(99, 102, 241, 0.045) 80px
+  );
+}
+
+.nf-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(130px);
+}
+
+.nf-glow--indigo {
+  width: 650px;
+  height: 650px;
+  background: var(--accent-indigo);
+  opacity: 0.12;
+  top: -15%;
+  left: -15%;
+  animation: nf-drift 9s ease-in-out infinite;
+}
+
+.nf-glow--cyan {
+  width: 550px;
+  height: 550px;
+  background: var(--accent-cyan);
+  opacity: 0.09;
+  bottom: -10%;
+  right: -10%;
+  animation: nf-drift 11s ease-in-out infinite reverse;
+}
+
+.nf-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.025) 2px,
+    rgba(0, 0, 0, 0.025) 4px
+  );
+}
+
+/* ── Content ─────────────────────────────────────────────── */
+.nf-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* ── Badge ───────────────────────────────────────────────── */
+.nf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--vivid-red);
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: 99px;
+  padding: 5px 14px 5px 10px;
+  margin-bottom: 2rem;
+  animation: fade-up 0.5s var(--ease-out) 0.05s both;
+}
+
+.nf-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--vivid-red);
+  flex-shrink: 0;
+  animation: nf-pulse-red 1.4s ease-in-out infinite;
+}
+
+/* ── 404 heading ─────────────────────────────────────────── */
+.nf-404 {
+  display: flex;
+  gap: 0.01em;
+  font-family: var(--font-display);
+  font-size: clamp(6.5rem, 22vw, 13rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.88;
+  margin: 0 0 1.75rem;
+}
+
+.nf-digit {
+  display: inline-block;
+  background: var(--gradient-accent-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Entrance — staggered fade-up (reuse global keyframe) */
+.nf-digit--a    { animation: fade-up 0.55s var(--ease-out) 0.15s both, nf-glitch    7s  ease-in-out 1.2s  infinite; }
+.nf-digit--zero { animation: fade-up 0.55s var(--ease-out) 0.25s both, nf-glitch-0  9s  ease-in-out 0.6s  infinite; }
+.nf-digit--b    { animation: fade-up 0.55s var(--ease-out) 0.35s both, nf-glitch    7s  ease-in-out 2.8s  infinite; }
+
+/* ── Headline / sub ──────────────────────────────────────── */
+.nf-headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 3vw, 1.625rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+  animation: fade-up 0.55s var(--ease-out) 0.4s both;
+}
+
+.nf-sub {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin: 0 0 2.25rem;
+  animation: fade-up 0.55s var(--ease-out) 0.5s both;
+}
+
+/* ── Terminal ────────────────────────────────────────────── */
+.nf-terminal {
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  animation: fade-up 0.55s var(--ease-out) 0.6s both;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.07),
+    0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+.nf-terminal-header {
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 0.875rem;
+  background: var(--bg-surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.nf-dots {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.nf-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.nf-dot--red   { background: #FF5F57; }
+.nf-dot--amber { background: #FEBC2E; }
+.nf-dot--green { background: #28C840; }
+
+.nf-terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  flex: 1;
+  text-align: center;
+}
+
+.nf-terminal-body {
+  padding: 0.875rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.9;
+  text-align: left;
+}
+
+.nf-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.nf-line--err { color: var(--vivid-red); }
+
+.nf-sym     { color: var(--text-dim); flex-shrink: 0; }
+.nf-key     { color: var(--accent-cyan); }
+.nf-fn      { color: var(--accent-indigo); }
+.nf-str     { color: var(--vivid-green); font-size: 0.75rem; }
+.nf-num     { color: var(--vivid-yellow); }
+.nf-tag     { color: var(--vivid-red); font-weight: 700; }
+.nf-comment { color: var(--text-dim); font-style: italic; }
+.nf-dim     { color: var(--text-dim); }
+
+.nf-cursor {
+  display: inline-block;
+  color: var(--accent-indigo);
+  animation: nf-blink 1s step-end infinite;
+}
+
+/* ── Actions ─────────────────────────────────────────────── */
+.nf-actions {
+  animation: fade-up 0.55s var(--ease-out) 0.75s both;
+}
+
+.nf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 44px;
+  padding: 0 1.75rem;
+  background: var(--gradient-accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s var(--ease-out), box-shadow 0.2s;
+}
+
+.nf-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.nf-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.45);
+}
+
+/* ── Keyframes ───────────────────────────────────────────── */
+
+/* Glitch for the outer "4"s */
+@keyframes nf-glitch {
+  0%, 87%, 100% {
+    text-shadow: none;
+    transform: none;
+  }
+  89% {
+    text-shadow: -4px 0 #22D3EE, 4px 0 #EF4444;
+    transform: translateX(3px) skewX(-1.5deg);
+  }
+  91% {
+    text-shadow: 4px 0 #22D3EE, -4px 0 #EF4444;
+    transform: translateX(-3px) skewX(1.5deg);
+  }
+  93% {
+    text-shadow: -2px 0 #6366F1, 2px 0 #22D3EE;
+    transform: translateX(1px);
+  }
+  95% {
+    text-shadow: none;
+    transform: translateX(-0.5px);
+  }
+}
+
+/* Glitch for the "0" — squashes + separate color shift */
+@keyframes nf-glitch-0 {
+  0%, 82%, 100% {
+    text-shadow: none;
+    transform: none;
+  }
+  84% {
+    text-shadow: -5px 0 #22D3EE, 5px 0 #EF4444;
+    transform: scaleX(1.06) translateX(3px);
+  }
+  86% {
+    text-shadow: 5px 0 #6366F1, -5px 0 #22D3EE;
+    transform: scaleX(0.95) translateX(-3px);
+  }
+  88% {
+    text-shadow: -2px 0 #EF4444;
+    transform: scaleX(1.02);
+  }
+  90% {
+    text-shadow: none;
+    transform: none;
+  }
+}
+
+/* Glow orb slow drift */
+@keyframes nf-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(50px, -35px) scale(1.06); }
+  66%       { transform: translate(-25px, 45px) scale(0.94); }
+}
+
+/* Red status dot pulse */
+@keyframes nf-pulse-red {
+  0%, 100% { opacity: 1; box-shadow: 0 0 5px var(--vivid-red); }
+  50%       { opacity: 0.35; box-shadow: none; }
+}
+
+/* Terminal cursor blink */
+@keyframes nf-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .nf-page    { padding: 2rem 1rem; }
+  .nf-sub     { font-size: 0.875rem; }
+
+  .nf-terminal-body {
+    font-size: 0.75rem;
+  }
+
+  .nf-line {
+    white-space: normal;
+    word-break: break-all;
+  }
+}

@@ -1,0 +1,127 @@
+/* ══════════════════════════════════════════════════════════════
+   Global Design System  ·  Dark High-Tech
+   Syne display · Outfit body · JetBrains Mono
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Background layers ──────────────────────────────────── */
+  --bg-base:       #060810;
+  --bg-surface:    #0D1117;
+  --bg-surface-2:  #131824;
+  --bg-surface-3:  #1A2236;
+
+  /* ── Borders ────────────────────────────────────────────── */
+  --border:        #1E2A3E;
+  --border-bright: #2D3A56;
+
+  /* ── Core accent ────────────────────────────────────────── */
+  --accent-indigo: #6366F1;
+  --accent-cyan:   #22D3EE;
+
+  /* Gradient: indigo → cyan — used for headings, buttons, active states */
+  --gradient-accent:      linear-gradient(135deg, #6366F1 0%, #22D3EE 100%);
+  --gradient-accent-text: linear-gradient(135deg, #818CF8 0%, #67E8F9 100%);
+  --gradient-accent-glow: linear-gradient(135deg,
+      rgba(99,102,241,0.35) 0%,
+      rgba(34,211,238,0.35) 100%);
+
+  /* ── Status / badge vivid palette ──────────────────────── */
+  --vivid-green:   #22C55E;
+  --vivid-yellow:  #EAB308;
+  --vivid-red:     #EF4444;
+  --vivid-purple:  #A855F7;
+  --vivid-orange:  #F97316;
+  --vivid-blue:    #3B82F6;
+
+  /* ── Text ───────────────────────────────────────────────── */
+  --text-primary:   #E2E8F0;
+  --text-secondary: #94A3B8;
+  --text-muted:     #4A5568;
+  --text-dim:       #64748B;
+
+  /* ── Glow helpers ───────────────────────────────────────── */
+  --glow-indigo: rgba(99, 102, 241, 0.45);
+  --glow-cyan:   rgba(34, 211, 238, 0.4);
+
+  /* ── Theme-sensitive surfaces (overridden in light mode) ── */
+  --header-bg:   rgba(6, 8, 16, 0.75);
+  --backdrop-bg: rgba(6, 8, 16, 0.72);
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-sans:    'Outfit', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* ── Radii ──────────────────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius:    12px;
+  --radius-lg: 16px;
+
+  /* ── Transitions ────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Global reset + base ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Shared keyframes ───────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar             { width: 5px; height: 5px; }
+::-webkit-scrollbar-track       { background: var(--bg-base); }
+::-webkit-scrollbar-thumb       { background: var(--border-bright); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-indigo); }
+
+/* ══════════════════════════════════════════════════════════════
+   Light theme overrides  —  [data-theme="light"] on <html>
+   ══════════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  /* ── Background layers ──────────────────────────────────── */
+  --bg-base:       #F1F5F9;
+  --bg-surface:    #FFFFFF;
+  --bg-surface-2:  #F8FAFC;
+  --bg-surface-3:  #EEF2F7;
+
+  /* ── Borders ────────────────────────────────────────────── */
+  --border:        #E2E8F0;
+  --border-bright: #CBD5E1;
+
+  /* ── Accent text gradient (richer on white backgrounds) ── */
+  --gradient-accent-text: linear-gradient(135deg, #4F46E5 0%, #0891B2 100%);
+
+  /* ── Glow helpers (toned down on light bg) ──────────────── */
+  --glow-indigo: rgba(99, 102, 241, 0.15);
+  --glow-cyan:   rgba(34, 211, 238, 0.12);
+
+  /* ── Text ───────────────────────────────────────────────── */
+  --text-primary:   #0F172A;
+  --text-secondary: #334155;
+  --text-muted:     #94A3B8;
+  --text-dim:       #64748B;
+
+  /* ── Theme surfaces ─────────────────────────────────────── */
+  --header-bg:   rgba(255, 255, 255, 0.88);
+  --backdrop-bg: rgba(15, 23, 42, 0.5);
+}

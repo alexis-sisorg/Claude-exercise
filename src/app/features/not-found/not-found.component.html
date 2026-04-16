@@ -1,0 +1,73 @@
+<div class="nf-page">
+
+  <!-- ── Atmospheric background ──────────────────────── -->
+  <div class="nf-bg" aria-hidden="true">
+    <div class="nf-grid-h"></div>
+    <div class="nf-grid-v"></div>
+    <div class="nf-glow nf-glow--indigo"></div>
+    <div class="nf-glow nf-glow--cyan"></div>
+    <div class="nf-scanlines"></div>
+  </div>
+
+  <!-- ── Main content ─────────────────────────────────── -->
+  <div class="nf-content">
+
+    <!-- Status badge -->
+    <div class="nf-badge">
+      <span class="nf-badge-dot" aria-hidden="true"></span>
+      SYSTEM · ERROR
+    </div>
+
+    <!-- 404 digits — each animates independently -->
+    <h1 class="nf-404" aria-label="404 Not Found">
+      <span class="nf-digit nf-digit--a">4</span>
+      <span class="nf-digit nf-digit--zero">0</span>
+      <span class="nf-digit nf-digit--b">4</span>
+    </h1>
+
+    <p class="nf-headline">Signal lost in the void</p>
+    <p class="nf-sub">The route you requested doesn&rsquo;t exist in this system.</p>
+
+    <!-- Terminal readout -->
+    <div class="nf-terminal" role="log" aria-label="Error details">
+      <div class="nf-terminal-header">
+        <div class="nf-dots" aria-hidden="true">
+          <span class="nf-dot nf-dot--red"></span>
+          <span class="nf-dot nf-dot--amber"></span>
+          <span class="nf-dot nf-dot--green"></span>
+        </div>
+        <span class="nf-terminal-title">NAVIGATOR.sys</span>
+      </div>
+      <div class="nf-terminal-body">
+        <div class="nf-line">
+          <span class="nf-sym">❯</span>
+          <span class="nf-key">router</span><span class="nf-dim">.</span><span class="nf-fn">resolve</span><span class="nf-dim">(</span><span class="nf-str">window.location.pathname</span><span class="nf-dim">)</span>
+        </div>
+        <div class="nf-line nf-line--err">
+          <span class="nf-sym">✕</span>
+          <span class="nf-tag">RouteNotFoundError</span><span class="nf-dim">: no matching route</span>
+        </div>
+        <div class="nf-line">
+          <span class="nf-sym">❯</span>
+          <span class="nf-key">status</span>&nbsp;<span class="nf-num">404</span>&nbsp;&nbsp;<span class="nf-comment">// nothing here</span>
+        </div>
+        <div class="nf-line nf-line--cursor">
+          <span class="nf-sym">❯</span>
+          <span class="nf-cursor" aria-hidden="true">█</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action -->
+    <div class="nf-actions">
+      <a class="nf-btn" routerLink="/">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.75"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Return to boards
+      </a>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<!-- ── Backdrop ──────────────────────────────────────────── -->
+<div class="modal-backdrop" (click)="onBackdropClick($event)" role="dialog"
+     aria-modal="true" [attr.aria-label]="task.title + ' — comments'">
+
+  <div class="modal-panel">
+
+    <!-- ── Modal header ──────────────────────────────────── -->
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <svg class="modal-task-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" rx="2"
+                stroke="currentColor" stroke-width="1.25"/>
+          <path d="M5 8h6M5 5.5h6M5 10.5h4"
+                stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+        </svg>
+        <h2 class="modal-title">{{ task.title }}</h2>
+      </div>
+      <button class="modal-close" (click)="closeModal.emit()" aria-label="Close modal">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M4 4L12 12M12 4L4 12" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- ── Due date (if set) ──────────────────────────────── -->
+    @if (task.dueDate) {
+      <div class="modal-due">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <rect x="2" y="3" width="12" height="11" rx="1.5"
+                stroke="currentColor" stroke-width="1.25"/>
+          <path d="M5 1.5V4M11 1.5V4M2 7h12"
+                stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+        </svg>
+        Due {{ task.dueDate | date: 'MMM d, y' }}
+      </div>
+    }
+
+    <!-- ── Divider ────────────────────────────────────────── -->
+    <div class="modal-divider"></div>
+
+    <!-- ── Comments section ──────────────────────────────── -->
+    <div class="comments-section">
+      <div class="comments-header">
+        <span class="comments-label">Comments</span>
+        <span class="comments-count">{{ comments.length }}</span>
+      </div>
+
+      <!-- Loading state -->
+      @if (loading) {
+        <div class="comments-loading">
+          <span class="loading-dot"></span>
+          <span class="loading-dot"></span>
+          <span class="loading-dot"></span>
+        </div>
+      }
+
+      <!-- Comment list — newest first -->
+      @if (!loading) {
+        <div class="comments-list">
+          @for (comment of comments; track comment.id) {
+            <div class="comment-row">
+              <div class="comment-avatar" [attr.data-initial]="getInitial(comment.user.name)">
+                {{ getInitial(comment.user.name) }}
+              </div>
+              <div class="comment-body">
+                <div class="comment-meta">
+                  <span class="comment-author">{{ comment.user.name }}</span>
+                  <span class="comment-time">{{ relativeTime(comment.createdAt) }}</span>
+                </div>
+                <p class="comment-text">{{ comment.text }}</p>
+              </div>
+            </div>
+          }
+
+          @if (comments.length === 0) {
+            <p class="comments-empty">No comments yet. Be the first to leave one.</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ── New comment input ──────────────────────────────── -->
+    <div class="comment-compose">
+      <div class="compose-avatar">A</div>
+      <div class="compose-input-wrap">
+        <textarea
+          class="compose-textarea"
+          placeholder="Write a comment… (Ctrl+Enter to submit)"
+          rows="2"
+          [value]="newText"
+          (input)="onInput($event)"
+          (keydown)="onKeydown($event)"
+          [disabled]="submitting"
+        ></textarea>
+        <button
+          class="compose-submit"
+          (click)="submit()"
+          [disabled]="!newText.trim() || submitting"
+          aria-label="Post comment"
+        >
+          @if (submitting) {
+            <span class="submit-spinner"></span>
+          } @else {
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="M13 8H3M9 4l4 4-4 4"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+          }
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

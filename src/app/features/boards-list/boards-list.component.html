@@ -1,0 +1,141 @@
+<div class="boards-page">
+
+  <!-- ── Ambient background glows ─────────────────────────── -->
+  <div class="glow glow--tl" aria-hidden="true"></div>
+  <div class="glow glow--br" aria-hidden="true"></div>
+
+  <!-- ── Page header ──────────────────────────────────────── -->
+  <header class="page-header">
+    <div class="page-header-top">
+      <div class="page-meta">
+        <div class="page-eyebrow">
+          <span class="eyebrow-dot"></span>
+          <span class="eyebrow-text">BOARDS</span>
+        </div>
+        <h1 class="page-title">My Workspaces</h1>
+        <p class="page-subtitle">
+          {{ filteredBoards.length }}
+          {{ filteredBoards.length === 1 ? 'workspace' : 'workspaces' }} found
+        </p>
+      </div>
+
+      <!-- Search input -->
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M15 15L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Search workspaces…"
+          autocomplete="off"
+          [value]="searchTerm"
+          (input)="onSearch($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Stat summary strip -->
+    <div class="summary-strip">
+      <div class="summary-item">
+        <span class="summary-val">{{ boards.length }}</span>
+        <span class="summary-lbl">Total boards</span>
+      </div>
+      <div class="summary-sep"></div>
+      <div class="summary-item">
+        <span class="summary-val">{{ totalTasks }}</span>
+        <span class="summary-lbl">Total tasks</span>
+      </div>
+      <div class="summary-sep"></div>
+      <div class="summary-item summary-item--alert">
+        <span class="summary-val">{{ totalOverdue }}</span>
+        <span class="summary-lbl">Overdue tasks</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Boards grid ───────────────────────────────────────── -->
+  <div class="boards-grid">
+    @for (board of filteredBoards; track board.id; let i = $index) {
+      @let stats = getStats(board);
+      <a
+        class="board-card"
+        [routerLink]="['/board', board.id]"
+        [style.--card-accent]="board.accentColor"
+        [style.--card-delay]="(i * 90) + 'ms'"
+        [attr.aria-label]="board.name + ' board'"
+      >
+        <!-- gradient top bar -->
+        <div class="card-bar"></div>
+
+        <div class="card-body">
+
+          <!-- title + arrow -->
+          <div class="card-head">
+            <div class="card-accent-chip"></div>
+            <h2 class="card-title">{{ board.name }}</h2>
+            <span class="card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none">
+                <path d="M3 13L13 3M13 3H7M13 3V9"
+                      stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+
+          <!-- 4 stat badges -->
+          <div class="card-stats">
+
+            <div class="stat-badge stat-badge--indigo">
+              <span class="stat-num">{{ stats.lists }}</span>
+              <span class="stat-lbl">Lists</span>
+            </div>
+
+            <div class="stat-badge stat-badge--cyan">
+              <span class="stat-num">{{ stats.totalTasks }}</span>
+              <span class="stat-lbl">Tasks</span>
+            </div>
+
+            <div
+              class="stat-badge"
+              [class.stat-badge--red]="stats.pastDue > 0"
+              [class.stat-badge--muted]="stats.pastDue === 0"
+            >
+              <span class="stat-num">{{ stats.pastDue }}</span>
+              <span class="stat-lbl">Overdue</span>
+            </div>
+
+            <div
+              class="stat-badge"
+              [class.stat-badge--amber]="stats.dueSoon > 0"
+              [class.stat-badge--muted]="stats.dueSoon === 0"
+            >
+              <span class="stat-num">{{ stats.dueSoon }}</span>
+              <span class="stat-lbl">Due soon</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- card footer -->
+        <div class="card-footer">
+          <span class="card-footer-label">Open board</span>
+          <span class="card-footer-icon">→</span>
+        </div>
+
+      </a>
+    }
+
+    <!-- Empty state -->
+    @if (filteredBoards.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">⌕</div>
+        <p class="empty-title">No boards found</p>
+        <p class="empty-sub">Try a different search term</p>
+      </div>
+    }
+  </div>
+
+</div>
