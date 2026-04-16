@@ -40,3 +40,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Claude Code internal files
+.claude/
+
+# Server — generated & dependencies
+server/node_modules/
+server/dist/
+server/prisma/*.db
+server/prisma/*.db-journal
